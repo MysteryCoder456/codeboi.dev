@@ -20,11 +20,13 @@ pub fn App(cx: Scope) -> impl IntoView {
             }
             .into_view(cx)
         }>
-            <main>
-                <Routes>
-                    <Route path="" view=|cx| view! { cx, <HomePage/> }/>
-                </Routes>
-            </main>
+            <div class="main-container">
+                <main>
+                    <Routes>
+                        <Route path="" view=|cx| view! { cx, <HomePage/> }/>
+                    </Routes>
+                </main>
+            </div>
         </Router>
     }
 }
@@ -32,6 +34,16 @@ pub fn App(cx: Scope) -> impl IntoView {
 #[component]
 fn HomePage(cx: Scope) -> impl IntoView {
     view! { cx,
-        <h1>"CodeBoi"</h1>
+        <div align="center">
+            <h1>"codeboi"</h1>
+            <h2><b>"TL;DR"</b></h2>
+        </div>
+
+        <ul>
+            <li>"I'm a high school senior who"</li>
+            <li>"likes programming & tech,"</li>
+            <li>"plays the guitar and"</li>
+            <li>"likes playing table tennis & badminton!"</li>
+        </ul>
     }
 }
