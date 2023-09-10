@@ -39,12 +39,18 @@ html {
     color: $ghost-white;
 }
 
+main {
+    margin: 0 auto;
+    width: max-content;
+    text-align: start;
+}
+
 .main-container {
     background: $raisin-black;
     border-radius: 12px;
 
     width: 70vw;
-    padding: 8px;
+    padding: 16px;
 
     position: absolute;
     top: 50%;
@@ -52,8 +58,6 @@ html {
     transform: translate(-50%, -50%);
 }
 
-main {
-    margin: 0 auto;
-    width: max-content;
-    text-align: start;
+.codeboi-pfp {
+    border-radius: 50%;
 }

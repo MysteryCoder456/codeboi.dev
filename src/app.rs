@@ -10,7 +10,7 @@ pub fn App(cx: Scope) -> impl IntoView {
     view! {
         cx,
         <Stylesheet id="leptos" href="/pkg/portfolio.css"/>
-        <Title text="Rehatbir's Portfolio"/>
+        <Title text="CodeBoi"/>
 
         <Router fallback=|cx| {
             let mut outside_errors = Errors::default();
@@ -35,15 +35,19 @@ pub fn App(cx: Scope) -> impl IntoView {
 fn HomePage(cx: Scope) -> impl IntoView {
     view! { cx,
         <div align="center">
+            <img src="/images/CB.png" alt="CodeBois's Profile Picture" width="200px" class="codeboi-pfp" />
             <h1>"codeboi"</h1>
-            <h2><b>"TL;DR"</b></h2>
         </div>
 
-        <ul>
-            <li>"I'm a high school senior who"</li>
-            <li>"likes programming & tech,"</li>
-            <li>"plays the guitar and"</li>
-            <li>"likes playing table tennis & badminton!"</li>
-        </ul>
+        <div>
+            <h2>"TL;DR"</h2>
+            <p>"I'm a high school senior who"</p>
+            <ul>
+                <li>"likes programming & tech 💻"</li>
+                <li>"plays the guitar 🎸"</li>
+                <li>"likes playing table tennis & badminton 🏓"</li>
+                <li>"and (most importantly) is obsessed with cats 🐈"</li>
+            </ul>
+        </div>
     }
 }
