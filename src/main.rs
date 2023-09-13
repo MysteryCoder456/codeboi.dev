@@ -1,4 +1,8 @@
 #[cfg(feature = "ssr")]
+#[macro_use]
+extern crate dotenv_codegen;
+
+#[cfg(feature = "ssr")]
 #[tokio::main]
 async fn main() {
     use axum::{routing::post, Router};
@@ -6,6 +10,7 @@ async fn main() {
     use leptos_axum::{generate_route_list, LeptosRoutes};
     use portfolio::app::*;
     use portfolio::fileserv::file_and_error_handler;
+    use sqlx::postgres::PgPoolOptions;
 
     simple_logger::init_with_level(log::Level::Debug).expect("couldn't initialize logging");
 
@@ -19,12 +24,20 @@ async fn main() {
     let addr = leptos_options.site_addr;
     let routes = generate_route_list(|cx| view! { cx, <App/> }).await;
 
+    // SQL connection pool
+    let pool = PgPoolOptions::new()
+        .max_connections(4)
+        .connect(dotenv!("DATABASE_URL"))
+        .await
+        .unwrap();
+
     // build our application with a route
     let app = Router::new()
         .route("/api/*fn_name", post(leptos_axum::handle_server_fns))
         .leptos_routes(&leptos_options, routes, |cx| view! { cx, <App/> })
         .fallback(file_and_error_handler)
-        .with_state(leptos_options);
+        .with_state(leptos_options)
+        .with_state(pool);
 
     // run our app with hyper
     // `axum::Server` is a re-export of `hyper::Server`

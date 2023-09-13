@@ -1,4 +1,4 @@
-$rich-black: #111418;
+$gunmetal: #262B2B;
 $ghost-white: #fffaff;
 $raisin-black: #29262B;
 $malachite: #09e85e;
@@ -33,7 +33,7 @@ $mustard: #f7ce5b;
 }
 
 html {
-    background: $rich-black;
+    background: black;
 	font-family: "Ubuntu Mono";
 	text-align: center;
     color: $ghost-white;
@@ -46,11 +46,11 @@ main {
 }
 
 .main-container {
-    background: $raisin-black;
+    background: $gunmetal;
     border-radius: 12px;
 
-    width: 70vw;
-    padding: 16px;
+    width: 60vw;
+    padding: 32px;
 
     position: absolute;
     top: 50%;
