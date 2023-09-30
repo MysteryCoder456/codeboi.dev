@@ -1,8 +1,16 @@
 $gunmetal: #262B2B;
 $ghost-white: #fffaff;
-$raisin-black: #29262B;
+$dim-gray: #686963;
 $malachite: #09e85e;
 $mustard: #f7ce5b;
+
+:root {
+    --gunmetal: #262B2B;
+    --ghost-white: #fffaff;
+    --dim-gray: #686963;
+    --malachite: #09e85e;
+    --mustard: #f7ce5b;
+}
 
 @font-face {
     font-family: "Ubuntu Mono";
@@ -40,24 +48,21 @@ html {
 }
 
 main {
-    margin: 0 auto;
+    margin: 60px auto;
     width: max-content;
     text-align: start;
 }
 
-.main-container {
+.content {
     background: $gunmetal;
     border-radius: 12px;
-
-    width: 60vw;
-    padding: 32px;
-
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    padding: 12px 25px;
 }
 
 .codeboi-pfp {
     border-radius: 50%;
+}
+
+.muted {
+    color: $dim-gray;
 }

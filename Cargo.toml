@@ -28,6 +28,7 @@ sqlx = { version = "0.7", features = ["runtime-tokio", "tls-native-tls", "postgr
 dotenv_codegen = { version = "0.15", optional = true }
 serde = { version = "1", features = ["derive"] }
 time = { version = "0.3", features = ["serde"] }
+stylers = "1.0.0-alpha"
 
 [features]
 default = ["hydrate", "ssr"]
@@ -53,6 +54,9 @@ opt-level = 'z'
 lto = true
 codegen-units = 1
 panic = "abort"
+
+[build-dependencies]
+stylers = "1.0.0-alpha"
 
 [package.metadata.leptos]
 # The name used by wasm-bindgen/cargo-leptos for the JS/WASM bundle. Defaults to the crate name

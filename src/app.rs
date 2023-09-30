@@ -14,6 +14,7 @@ pub fn App(cx: Scope) -> impl IntoView {
 
     view! { cx,
         <Stylesheet id="leptos" href="/pkg/portfolio.css"/>
+        <Stylesheet href="/stylers.css"/>
         <Title text="CodeBoi"/>
 
         <Router fallback=|cx| {
