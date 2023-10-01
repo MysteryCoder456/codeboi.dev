@@ -9,23 +9,23 @@ mod models;
 use home::HomePage;
 
 #[component]
-pub fn App(cx: Scope) -> impl IntoView {
-    provide_meta_context(cx);
+pub fn App() -> impl IntoView {
+    provide_meta_context();
 
-    view! { cx,
+    view! {
         <Stylesheet id="leptos" href="/pkg/portfolio.css"/>
         <Stylesheet href="/stylers.css"/>
         <Title text="CodeBoi"/>
 
-        <Router fallback=|cx| {
+        <Router fallback=|| {
             let mut outside_errors = Errors::default();
             outside_errors.insert_with_default_key(AppError::NotFound);
-            view! { cx, <ErrorTemplate outside_errors/> }.into_view(cx)
+            view! { <ErrorTemplate outside_errors/> }.into_view()
         }>
             <div class="main-container">
                 <main>
                     <Routes>
-                        <Route path="" view=|cx| view! { cx, <HomePage/> }/>
+                        <Route path="" view=|| view! { <HomePage/> }/>
                     </Routes>
                 </main>
             </div>

@@ -4,9 +4,9 @@ use stylers::style;
 use crate::app::models::Project;
 
 #[server(GetPinnedProjects)]
-async fn get_pinned_projects(cx: Scope) -> Result<Vec<Project>, ServerFnError> {
+async fn get_pinned_projects() -> Result<Vec<Project>, ServerFnError> {
     use sqlx::PgPool;
-    let pool = use_context::<PgPool>(cx).ok_or(ServerFnError::ServerError(
+    let pool = use_context::<PgPool>().ok_or(ServerFnError::ServerError(
         "State `PgPool` not found.".to_owned(),
     ))?;
 
@@ -17,8 +17,8 @@ async fn get_pinned_projects(cx: Scope) -> Result<Vec<Project>, ServerFnError> {
 }
 
 #[component]
-pub fn HomePage(cx: Scope) -> impl IntoView {
-    let projects = create_resource(cx, || (), move |_| get_pinned_projects(cx));
+pub fn HomePage() -> impl IntoView {
+    let projects = create_resource(|| (), move |_| get_pinned_projects());
 
     let style_class = style! {
         .codeboi-pfp {
@@ -26,7 +26,7 @@ pub fn HomePage(cx: Scope) -> impl IntoView {
         }
     };
 
-    view! { cx, class=style_class,
+    view! { class=style_class,
         <div align="center">
             <img
                 src="/images/CB.png"
@@ -58,28 +58,28 @@ pub fn HomePage(cx: Scope) -> impl IntoView {
         <div>
             <h2>"Sneak Peak Projects"</h2>
 
-            <Transition fallback=move || view! { cx, <p>"Loading..."</p> }>
-                <ErrorBoundary fallback=|cx, _| {
-                    view! { cx, <p>"oops"</p> }
+            <Transition fallback=move || view! { <p>"Loading..."</p> }>
+                <ErrorBoundary fallback=|_| {
+                    view! { <p>"oops"</p> }
                 }>
                     {move || {
                         projects
-                            .read(cx)
+                            .get()
                             .map(|projects| {
                                 match projects {
                                     Ok(projects) => {
                                         projects
                                             .iter()
                                             .map(|project| {
-                                                view! { cx,
+                                                view! {
                                                     <br/>
                                                     <PinnedProject project/>
                                                     <br/>
                                                 }
                                             })
-                                            .collect_view(cx)
+                                            .collect_view()
                                     }
-                                    Err(e) => view! { cx, <p>{e.to_string()}</p> }.into_view(cx),
+                                    Err(e) => view! { <p>{e.to_string()}</p> }.into_view(),
                                 }
                             })
                     }}
@@ -90,14 +90,14 @@ pub fn HomePage(cx: Scope) -> impl IntoView {
 }
 
 #[component]
-fn PinnedProject<'a>(cx: Scope, project: &'a Project) -> impl IntoView {
+fn PinnedProject<'a>(project: &'a Project) -> impl IntoView {
     let style_class = style! {
         .pinned-project {
             box-shadow: 0px 0px 42px -12px var(--malachite);
         }
     };
 
-    view! { cx, class=style_class,
+    view! { class=style_class,
         <div class="pinned-project content">
             <h3>{&project.name}</h3>
             <p>{&project.description}</p>

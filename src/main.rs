@@ -31,10 +31,10 @@ cfg_if! {
         ) -> Response {
             let handler = leptos_axum::render_app_to_stream_with_context(
                 app_state.leptos_options.clone(),
-                move |cx| {
-                    provide_context(cx, app_state.pool.clone());
+                move || {
+                    provide_context(app_state.pool.clone());
                 },
-                |cx| view! { cx, <App/> },
+                || view! { <App/> },
             );
             handler(req).await.into_response()
         }
@@ -51,7 +51,7 @@ cfg_if! {
             let conf = get_configuration(None).await.unwrap();
             let leptos_options = conf.leptos_options;
             let addr = leptos_options.site_addr;
-            let routes = generate_route_list(|cx| view! { cx, <App/> }).await;
+            let routes = generate_route_list(|| view! { <App/> });
 
             // SQL connection pool
             let pool = PgPoolOptions::new()
@@ -75,7 +75,7 @@ cfg_if! {
 
             // run our app with hyper
             // `axum::Server` is a re-export of `hyper::Server`
-            log!("listening on http://{}", &addr);
+            log::info!("listening on http://{}", &addr);
             axum::Server::bind(&addr)
                 .serve(app.into_make_service())
                 .await
