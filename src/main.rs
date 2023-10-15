@@ -19,8 +19,12 @@ cfg_if! {
         use portfolio::fileserv::file_and_error_handler;
         use sqlx::postgres::{PgPool, PgPoolOptions};
 
-        #[cfg(feature = "tls")]
-        use axum_server::tls_rustls::RustlsConfig;
+        cfg_if! {
+            if #[cfg(feature = "tls")] {
+                use std::path::Path;
+                use axum_server::tls_rustls::RustlsConfig;
+            }
+        }
 
         #[derive(FromRef, Debug, Clone)]
         struct AppState {
@@ -79,15 +83,15 @@ cfg_if! {
             cfg_if! {
                 if #[cfg(feature = "tls")] {
                     let config = RustlsConfig::from_pem_file(
-                        "ssl/cert.pem".into(),
-                        "ssl/cert.key".into(),
+                        Path::new("ssl/cert.pem"),
+                        Path::new("ssl/cert.key"),
                     )
-                    .await.unwrap();
+                    .await
+                    .unwrap();
 
                     // run our app with axum_server's rustls server
                     log::info!("listening on https://{}", &addr);
-                    println!("got here");
-                    axum_server::bind_rustls(&addr, config)
+                    axum_server::bind_rustls(addr, config)
                         .serve(app.into_make_service())
                         .await
                         .unwrap();
