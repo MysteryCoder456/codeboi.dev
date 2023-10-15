@@ -16,3 +16,4 @@ playwright/.cache/
 .DS_Store
 .env
 ssl/
+public/images/projects/

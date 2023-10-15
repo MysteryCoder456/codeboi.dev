@@ -24,6 +24,14 @@ pub fn HomePage() -> impl IntoView {
         .codeboi-pfp {
             box-shadow: 0px 0px 42px -12px var(--malachite);
         }
+
+        .tldr-inner {
+            width: max-content;
+        }
+
+        .pinned-projects {
+            width: 800px;
+        }
     };
 
     view! { class=style_class,
@@ -42,20 +50,22 @@ pub fn HomePage() -> impl IntoView {
 
         <div>
             <h2>"TL;DR"</h2>
-            <div class="content">
-                <p>"I'm a high school senior who"</p>
-                <ul>
-                    <li>"likes programming & tech 💻"</li>
-                    <li>"plays the guitar 🎸"</li>
-                    <li>"likes playing Table Tennis & Badminton 🏓"</li>
-                    <li>"and (most importantly) is obsessed with cats 🐈"</li>
-                </ul>
+            <div class="content" align="center">
+                <div class="tldr-inner" align="left">
+                    <p>"I'm a high school senior who"</p>
+                    <ul>
+                        <li>"likes programming & tech 💻"</li>
+                        <li>"plays the guitar 🎸"</li>
+                        <li>"likes playing Table Tennis & Badminton 🏓"</li>
+                        <li>"and (most importantly) is obsessed with cats 🐈"</li>
+                    </ul>
+                </div>
             </div>
         </div>
 
         <br/>
 
-        <div>
+        <div class="pinned-projects">
             <h2>"Sneak Peak Projects"</h2>
 
             <Transition fallback=move || view! { <p>"Loading..."</p> }>
@@ -93,15 +103,40 @@ pub fn HomePage() -> impl IntoView {
 fn PinnedProject<'a>(project: &'a Project) -> impl IntoView {
     let style_class = style! {
         .pinned-project {
-            box-shadow: 0px 0px 68px -22px var(--malachite);
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+
+            box-shadow: 0px 0px 64px -24px var(--malachite);
             border: 1px solid var(--dim-gray);
+        }
+
+        img {
+            width: 50%;
+            height: auto;
+            box-shadow: 0px 0px 8px -1px black;
+            border-radius: 8px;
+            margin: 8px 0px;
         }
     };
 
     view! { class=style_class,
         <div class="pinned-project content">
-            <h3>{&project.name}</h3>
-            <p>{&project.description}</p>
+            <div class="info">
+                <h3>
+                    {
+                        if let Some(ref url) = project.url {
+                            view! { <a href={url}>{&project.name}</a> }.into_view()
+                        } else {
+                            view! { <span>{&project.name}</span> }.into_view()
+                        }
+                    }
+                </h3>
+                <p>{&project.description}</p>
+            </div>
+
+            <img src={format!("/images/projects/{}.png", project.id)} />
         </div>
     }
 }

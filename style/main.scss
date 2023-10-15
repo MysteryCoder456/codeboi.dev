@@ -53,6 +53,11 @@ main {
     text-align: start;
 }
 
+a {
+    color: $ghost-white;
+    text-underline-offset: 4px;
+}
+
 .content {
     background: $gunmetal;
     border-radius: 12px;
