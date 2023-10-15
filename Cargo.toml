@@ -7,7 +7,8 @@ edition = "2021"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-axum = { version = "0.6.4", optional = true }
+axum = { version = "0.6", optional = true }
+axum-server = { version = "0.5", features = ["tls-rustls"], optional = true }
 console_error_panic_hook = "0.1"
 console_log = "1"
 cfg-if = "1"
@@ -46,6 +47,7 @@ ssr = [
     "dep:sqlx",
     "dep:dotenv_codegen",
 ]
+tls = ["axum-server"]
 
 # Defines a size-optimized profile for the WASM bundle in release mode
 [profile.wasm-release]
@@ -78,7 +80,7 @@ style-file = "style/main.scss"
 assets-dir = "public"
 
 # The IP and port (ex: 127.0.0.1:3000) where the server serves the content. Use it in your server setup.
-site-addr = "127.0.0.1:3000"
+site-addr = "0.0.0.0:3000"
 
 # The port to use for automatic reload monitoring
 reload-port = 3001

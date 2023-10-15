@@ -19,6 +19,9 @@ cfg_if! {
         use portfolio::fileserv::file_and_error_handler;
         use sqlx::postgres::{PgPool, PgPoolOptions};
 
+        #[cfg(feature = "tls")]
+        use axum_server::tls_rustls::RustlsConfig;
+
         #[derive(FromRef, Debug, Clone)]
         struct AppState {
             leptos_options: LeptosOptions,
@@ -55,7 +58,7 @@ cfg_if! {
 
             // SQL connection pool
             let pool = PgPoolOptions::new()
-                .max_connections(4)
+                .max_connections(2)
                 .connect(dotenv!("DATABASE_URL"))
                 .await
                 .unwrap();
@@ -73,13 +76,32 @@ cfg_if! {
                 .fallback(file_and_error_handler)
                 .with_state(app_state);
 
-            // run our app with hyper
-            // `axum::Server` is a re-export of `hyper::Server`
-            log::info!("listening on http://{}", &addr);
-            axum::Server::bind(&addr)
-                .serve(app.into_make_service())
-                .await
-                .unwrap();
+            cfg_if! {
+                if #[cfg(feature = "tls")] {
+                    let config = RustlsConfig::from_pem_file(
+                        "ssl/cert.pem".into(),
+                        "ssl/cert.key".into(),
+                    )
+                    .await.unwrap();
+
+                    // run our app with axum_server's rustls server
+                    log::info!("listening on https://{}", &addr);
+                    println!("got here");
+                    axum_server::bind_rustls(&addr, config)
+                        .serve(app.into_make_service())
+                        .await
+                        .unwrap();
+                } else {
+                    // run our app with hyper
+                    // `axum::Server` is a re-export of `hyper::Server`
+                    log::info!("listening on http://{}", &addr);
+                    axum::Server::bind(&addr)
+                        .serve(app.into_make_service())
+                        .await
+                        .unwrap();
+                }
+            }
+
         }
     }
 }
