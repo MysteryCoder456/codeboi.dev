@@ -93,7 +93,8 @@ pub fn HomePage() -> impl IntoView {
 fn PinnedProject<'a>(project: &'a Project) -> impl IntoView {
     let style_class = style! {
         .pinned-project {
-            box-shadow: 0px 0px 42px -12px var(--malachite);
+            box-shadow: 0px 0px 68px -22px var(--malachite);
+            border: 1px solid var(--dim-gray);
         }
     };
 
