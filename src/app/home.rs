@@ -107,9 +107,8 @@ fn PinnedProject<'a>(project: &'a Project) -> impl IntoView {
             flex-direction: row;
             justify-content: space-around;
             align-items: center;
-
             box-shadow: 0px 0px 64px -24px var(--malachite);
-            border: 1px solid var(--dim-gray);
+            margin: 15px 0px;
         }
 
         img {
