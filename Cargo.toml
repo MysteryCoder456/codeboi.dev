@@ -30,6 +30,7 @@ dotenv_codegen = { version = "0.15", optional = true }
 serde = { version = "1", features = ["derive"] }
 time = { version = "0.3", features = ["serde"] }
 stylers = "1.0.0-alpha"
+leptos_icons = { version = "0.1", features = ["BsGithub", "BsKeyboardFill", "BsLinkedin", "SiFiverr"] }
 
 [features]
 default = ["hydrate", "ssr"]

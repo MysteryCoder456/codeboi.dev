@@ -1,4 +1,5 @@
 use leptos::*;
+use leptos_icons::{BsIcon::*, SiIcon::*, *};
 use stylers::style;
 
 use crate::app::models::Project;
@@ -25,12 +26,28 @@ pub fn HomePage() -> impl IntoView {
             box-shadow: 0px 0px 42px -12px var(--malachite);
         }
 
+        .socials > a {
+            color: var(--dim-gray);
+            margin: 0px 12px;
+            transition: 0.12s color;
+        }
+
+        .socials > a:hover {
+            color: var(--ghost-white);
+        }
+
         .tldr-inner {
             width: max-content;
         }
 
         .pinned-projects {
             width: 800px;
+        }
+
+        .pinned-projects > div {
+            display: flex;
+            flex-direction: column;
+            gap: 44px;
         }
     };
 
@@ -44,6 +61,28 @@ pub fn HomePage() -> impl IntoView {
             />
             <h1>"codeboi"</h1>
             <h3 class="muted">"aka rehatbir singh irl ;)"</h3>
+        </div>
+
+        <div class="socials" align="center">
+            <a href="https://github.com/mysterycoder456" title="GitHub" target="_blank">
+                <Icon icon=Icon::from(BsGithub) width="40px" height="40px"/>
+            </a>
+
+            <a href="https://monkeytype.com/profile/CodeBoi" title="MonkeyType" target="_blank">
+                <Icon icon=Icon::from(BsKeyboardFill) width="40px" height="40px"/>
+            </a>
+
+            <a
+                href="https://www.linkedin.com/in/rehatbir-singh-4805ba193"
+                title="LinkedIn"
+                target="_blank"
+            >
+                <Icon icon=Icon::from(BsLinkedin) width="40px" height="40px"/>
+            </a>
+
+            <a href="https://www.fiverr.com/rehatbirsingh" title="Fiverr" target="_blank">
+                <Icon icon=Icon::from(SiFiverr) width="40px" height="40px"/>
+            </a>
         </div>
 
         <br/>
@@ -72,27 +111,26 @@ pub fn HomePage() -> impl IntoView {
                 <ErrorBoundary fallback=|_| {
                     view! { <p>"oops"</p> }
                 }>
-                    {move || {
-                        projects
-                            .get()
-                            .map(|projects| {
-                                match projects {
-                                    Ok(projects) => {
-                                        projects
-                                            .iter()
-                                            .map(|project| {
-                                                view! {
-                                                    <br/>
-                                                    <PinnedProject project/>
-                                                    <br/>
-                                                }
-                                            })
-                                            .collect_view()
+                    <div>
+                        {move || {
+                            projects
+                                .get()
+                                .map(|projects| {
+                                    match projects {
+                                        Ok(projects) => {
+                                            projects
+                                                .iter()
+                                                .map(|project| {
+                                                    view! { <PinnedProject project/> }
+                                                })
+                                                .collect_view()
+                                        }
+                                        Err(e) => view! { <p>{e.to_string()}</p> }.into_view(),
                                     }
-                                    Err(e) => view! { <p>{e.to_string()}</p> }.into_view(),
-                                }
-                            })
-                    }}
+                                })
+                        }}
+
+                    </div>
                 </ErrorBoundary>
             </Transition>
         </div>
@@ -108,7 +146,7 @@ fn PinnedProject<'a>(project: &'a Project) -> impl IntoView {
             justify-content: space-around;
             align-items: center;
             box-shadow: 0px 0px 64px -24px var(--malachite);
-            margin: 15px 0px;
+            margin: 5px 0px;
         }
 
         img {
@@ -124,18 +162,21 @@ fn PinnedProject<'a>(project: &'a Project) -> impl IntoView {
         <div class="pinned-project content">
             <div class="info">
                 <h3>
-                    {
-                        if let Some(ref url) = project.url {
-                            view! { <a href={url}>{&project.name}</a> }.into_view()
-                        } else {
-                            view! { <span>{&project.name}</span> }.into_view()
+                    {if let Some(ref url) = project.url {
+                        view! {
+                            <a href=url target="_blank">
+                                {&project.name}
+                            </a>
                         }
-                    }
+                            .into_view()
+                    } else {
+                        view! { <span>{&project.name}</span> }.into_view()
+                    }}
                 </h3>
                 <p>{&project.description}</p>
             </div>
 
-            <img src={format!("/images/projects/{}.png", project.id)} />
+            <img src=format!("/images/projects/{}.png", project.id)/>
         </div>
     }
 }
