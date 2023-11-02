@@ -14,7 +14,7 @@ pub fn App() -> impl IntoView {
 
     view! {
         <Stylesheet id="leptos" href="/pkg/portfolio.css"/>
-        <Stylesheet href="/stylers.css"/>
+        <Stylesheet href="/pkg/stylers.css"/>
         <Title text="CodeBoi"/>
 
         <Router fallback=|| {
