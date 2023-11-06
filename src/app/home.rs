@@ -11,10 +11,13 @@ async fn get_pinned_projects() -> Result<Vec<Project>, ServerFnError> {
         "State `PgPool` not found.".to_owned(),
     ))?;
 
-    sqlx::query_as!(Project, "SELECT * FROM projects WHERE pinned = true")
-        .fetch_all(&pool)
-        .await
-        .map_err(|e| ServerFnError::ServerError(e.to_string()))
+    sqlx::query_as!(
+        Project,
+        "SELECT * FROM projects WHERE pinned = true ORDER BY date_created DESC"
+    )
+    .fetch_all(&pool)
+    .await
+    .map_err(|e| ServerFnError::ServerError(e.to_string()))
 }
 
 #[component]
