@@ -58,7 +58,7 @@ pub fn HomePage() -> impl IntoView {
         <div align="center">
             <img
                 src="/images/CB.png"
-                alt="CodeBois's Profile Picture"
+                alt="CodeBoi's Profile Picture"
                 width="200px"
                 class="codeboi-pfp"
             />
