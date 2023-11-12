@@ -86,6 +86,10 @@ pub fn HomePage() -> impl IntoView {
             <a href="https://www.fiverr.com/rehatbirsingh" title="Fiverr" target="_blank">
                 <Icon icon=Icon::from(SiFiverr) width="40px" height="40px"/>
             </a>
+
+            <a href="mailto:rehatbir.singh@gmail.com" title="Mail" target="_blank">
+                <Icon icon=Icon::from(SiGmail) width="40px" height="40px"/>
+            </a>
         </div>
 
         <br/>
