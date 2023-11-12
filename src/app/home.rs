@@ -1,5 +1,5 @@
 use leptos::*;
-use leptos_icons::{BsIcon::*, SiIcon::*, *};
+use leptos_icons::{BsIcon::*, SiIcon::*, TbIcon::*, *};
 use stylers::style;
 
 use crate::app::models::Project;
@@ -39,18 +39,11 @@ pub fn HomePage() -> impl IntoView {
             color: var(--ghost-white);
         }
 
-        .tldr-inner {
-            width: max-content;
-        }
-
         .pinned-projects {
-            width: 800px;
-        }
-
-        .pinned-projects > div {
+            width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 44px;
+            gap: 40px;
         }
     };
 
@@ -88,56 +81,50 @@ pub fn HomePage() -> impl IntoView {
             </a>
 
             <a href="mailto:rehatbir.singh@gmail.com" title="Mail" target="_blank">
-                <Icon icon=Icon::from(SiGmail) width="40px" height="40px"/>
+                <Icon icon=Icon::from(TbMailFilled) width="40px" height="40px"/>
             </a>
         </div>
 
         <br/>
 
-        <div>
-            <h2>"TL;DR"</h2>
-            <div class="content" align="center">
-                <div class="tldr-inner" align="left">
-                    <p>"I'm a high school senior who"</p>
-                    <ul>
-                        <li>"likes programming & tech 💻"</li>
-                        <li>"plays the guitar 🎸"</li>
-                        <li>"likes playing Table Tennis & Badminton 🏓"</li>
-                        <li>"and (most importantly) is obsessed with cats 🐈"</li>
-                    </ul>
-                </div>
+        <h2>"TL;DR"</h2>
+        <div class="content" align="center">
+            <p>"I'm a high school senior who"</p>
+            <div align="left">
+                <ul>
+                    <li>"likes programming & tech 💻"</li>
+                    <li>"plays the guitar 🎸"</li>
+                    <li>"likes playing Table Tennis & Badminton 🏓"</li>
+                    <li>"and (most importantly) is obsessed with cats 🐈"</li>
+                </ul>
             </div>
         </div>
 
         <br/>
 
+        <h2>"Sneak Peak Projects"</h2>
         <div class="pinned-projects">
-            <h2>"Sneak Peak Projects"</h2>
-
             <Transition fallback=move || view! { <p>"Loading..."</p> }>
                 <ErrorBoundary fallback=|_| {
                     view! { <p>"oops"</p> }
                 }>
-                    <div>
-                        {move || {
-                            projects
-                                .get()
-                                .map(|projects| {
-                                    match projects {
-                                        Ok(projects) => {
-                                            projects
-                                                .iter()
-                                                .map(|project| {
-                                                    view! { <PinnedProject project/> }
-                                                })
-                                                .collect_view()
-                                        }
-                                        Err(e) => view! { <p>{e.to_string()}</p> }.into_view(),
+                    {move || {
+                        projects
+                            .get()
+                            .map(|projects| {
+                                match projects {
+                                    Ok(projects) => {
+                                        projects
+                                            .iter()
+                                            .map(|project| {
+                                                view! { <PinnedProject project/> }
+                                            })
+                                            .collect_view()
                                     }
-                                })
-                        }}
-
-                    </div>
+                                    Err(e) => view! { <p>{e.to_string()}</p> }.into_view(),
+                                }
+                            })
+                    }}
                 </ErrorBoundary>
             </Transition>
         </div>
@@ -156,12 +143,23 @@ fn PinnedProject<'a>(project: &'a Project) -> impl IntoView {
             margin: 5px 0px;
         }
 
-        img {
+        .pinned-project img {
             width: 50%;
             height: auto;
             box-shadow: 0px 0px 8px -1px black;
             border-radius: 8px;
             margin: 8px 0px;
+        }
+
+        @media (max-width: 600px) {
+            .pinned-project {
+                flex-direction: column;
+            }
+
+            .pinned-project img {
+                width: auto;
+                height: 12rem;
+            }
         }
     };
 

@@ -49,7 +49,7 @@ html {
 
 main {
     margin: 60px auto;
-    width: max-content;
+    width: 800px;
     text-align: start;
 }
 
@@ -71,4 +71,24 @@ a {
 
 .muted {
     color: $dim-gray;
+}
+
+@media (max-width: 1000px) {
+    html {
+        font-size: 0.9rem;
+    }
+
+    main {
+        width: 80vw;
+    }
+}
+
+@media (max-width: 600px) {
+    html {
+        font-size: 0.85rem;
+    }
+
+    main {
+        width: 90vw;
+    }
 }

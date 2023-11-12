@@ -35,7 +35,7 @@ leptos_icons = { version = "0.1", features = [
         "BsKeyboardFill",
         "BsLinkedin",
         "SiFiverr",
-        "SiGmail",
+        "TbMailFilled",
 ]}
 
 [features]
