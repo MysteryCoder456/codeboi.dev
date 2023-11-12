@@ -27,12 +27,15 @@ pub fn App() -> impl IntoView {
             name="og:description"
             content={meta_description}
         />
-
         <Meta
             name="description"
             content={meta_description}
         />
 
+        <Link rel="preload" as_="font" href={"/fonts/UbuntuMono-Regular.ttf"} />
+        <Link rel="preload" as_="font" href={"/fonts/UbuntuMono-Bold.ttf"} />
+        <Link rel="preload" as_="font" href={"/fonts/UbuntuMono-Italic.ttf"} />
+        <Link rel="preload" as_="font" href={"/fonts/UbuntuMono-BoldItalic.ttf"} />
 
         <Router fallback=|| {
             let mut outside_errors = Errors::default();
