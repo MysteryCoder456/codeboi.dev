@@ -16,7 +16,6 @@ pub fn App() -> impl IntoView {
 
     view! {
         <Stylesheet id="leptos" href="/pkg/portfolio.css"/>
-        <Stylesheet href="/stylers.css"/>
         <Title text="CodeBoi"/>
 
         <Meta name="og:title" content="CodeBoi" />
