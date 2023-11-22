@@ -5,8 +5,10 @@ use leptos_router::*;
 
 mod home;
 mod models;
+mod projects;
 
 use home::HomePage;
+use projects::Projects;
 
 #[component]
 pub fn App() -> impl IntoView {
@@ -18,23 +20,17 @@ pub fn App() -> impl IntoView {
         <Stylesheet id="leptos" href="/pkg/portfolio.css"/>
         <Title text="CodeBoi"/>
 
-        <Meta name="og:title" content="CodeBoi" />
-        <Meta name="og:image" content="/images/CB.png" />
-        <Meta name="og:url" content="https://codeboi.dev" />
-        <Meta name="theme-color" content="#09e85e" />
-        <Meta
-            name="og:description"
-            content={meta_description}
-        />
-        <Meta
-            name="description"
-            content={meta_description}
-        />
+        <Meta name="og:title" content="CodeBoi"/>
+        <Meta name="og:image" content="/images/CB.png"/>
+        <Meta name="og:url" content="https://codeboi.dev"/>
+        <Meta name="theme-color" content="#09e85e"/>
+        <Meta name="og:description" content=meta_description/>
+        <Meta name="description" content=meta_description/>
 
-        <Link rel="preload" as_="font" href={"/fonts/UbuntuMono-Regular.ttf"} />
-        <Link rel="preload" as_="font" href={"/fonts/UbuntuMono-Bold.ttf"} />
-        <Link rel="preload" as_="font" href={"/fonts/UbuntuMono-Italic.ttf"} />
-        <Link rel="preload" as_="font" href={"/fonts/UbuntuMono-BoldItalic.ttf"} />
+        <Link rel="preload" as_="font" href="/fonts/UbuntuMono-Regular.ttf"/>
+        <Link rel="preload" as_="font" href="/fonts/UbuntuMono-Bold.ttf"/>
+        <Link rel="preload" as_="font" href="/fonts/UbuntuMono-Italic.ttf"/>
+        <Link rel="preload" as_="font" href="/fonts/UbuntuMono-BoldItalic.ttf"/>
 
         <Router fallback=|| {
             let mut outside_errors = Errors::default();
@@ -45,6 +41,7 @@ pub fn App() -> impl IntoView {
                 <main>
                     <Routes>
                         <Route path="" view=|| view! { <HomePage/> }/>
+                        <Route path="/projects" view=|| view! { <Projects/> }/>
                     </Routes>
                 </main>
             </div>

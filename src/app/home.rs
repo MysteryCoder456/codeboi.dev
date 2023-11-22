@@ -102,7 +102,7 @@ pub fn HomePage() -> impl IntoView {
 
         <br/>
 
-        <h2>"Sneak Peak Projects"</h2>
+        <h2>"Project Sneak Peaks"</h2>
         <div class="pinned-projects">
             <Transition fallback=move || view! { <p>"Loading..."</p> }>
                 <ErrorBoundary fallback=|_| {
@@ -125,8 +125,14 @@ pub fn HomePage() -> impl IntoView {
                                 }
                             })
                     }}
+
                 </ErrorBoundary>
             </Transition>
+        </div>
+        <div align="center">
+            <a href="/projects">
+                <h3>View More</h3>
+            </a>
         </div>
     }
 }
@@ -177,6 +183,7 @@ fn PinnedProject<'a>(project: &'a Project) -> impl IntoView {
                     } else {
                         view! { <span>{&project.name}</span> }.into_view()
                     }}
+
                 </h3>
                 <p>{&project.description}</p>
             </div>
