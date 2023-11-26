@@ -55,7 +55,7 @@ pub fn HomePage() -> impl IntoView {
                 width="200px"
                 class="codeboi-pfp"
             />
-            <h1>"codeboi"</h1>
+            <h1>"CodeBoi"</h1>
             <h3 class="muted">"aka rehatbir singh irl ;)"</h3>
         </div>
 
@@ -98,6 +98,17 @@ pub fn HomePage() -> impl IntoView {
                     <li>"and (most importantly) is obsessed with cats 🐈"</li>
                 </ul>
             </div>
+        </div>
+
+        <br/>
+
+        <h2>"Fun Stuff"</h2>
+        <div class="content">
+            <ul>
+                <li>
+                    <a href="/box">Box Collisions (Digits of Pi)</a>
+                </li>
+            </ul>
         </div>
 
         <br/>

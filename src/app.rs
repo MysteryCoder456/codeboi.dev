@@ -3,10 +3,12 @@ use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
 
+mod box_collision;
 mod home;
 mod models;
 mod projects;
 
+use box_collision::BoxCollision;
 use home::HomePage;
 use projects::Projects;
 
@@ -42,6 +44,7 @@ pub fn App() -> impl IntoView {
                     <Routes>
                         <Route path="" view=|| view! { <HomePage/> }/>
                         <Route path="/projects" view=|| view! { <Projects/> }/>
+                        <Route path="/box" view=|| view! { <BoxCollision/> }/>
                     </Routes>
                 </main>
             </div>

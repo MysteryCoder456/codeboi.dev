@@ -21,11 +21,9 @@ pub fn Projects() -> impl IntoView {
     view! {
         <Title text="CodeBoi's Projects"/>
 
-        <a href="/" class="muted">
-            "< Back"
-        </a>
+        <a href="/" class="muted">"< Back"</a>
 
-        <h2>Projects</h2>
+        <h2 align="center">Projects</h2>
         <div class="content">
             <p>Coming Soon...</p>
         </div>
