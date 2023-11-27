@@ -22,7 +22,7 @@ cfg_if! {
 
         cfg_if! {
             if #[cfg(feature = "tls")] {
-                use std::path::Path;
+                use std::path::Path as StdPath;
                 use axum_server::tls_rustls::RustlsConfig;
             }
         }
@@ -103,8 +103,8 @@ cfg_if! {
             cfg_if! {
                 if #[cfg(feature = "tls")] {
                     let config = RustlsConfig::from_pem_file(
-                        Path::new("ssl/cert.pem"),
-                        Path::new("ssl/cert.key"),
+                        StdPath::new("ssl/cert.pem"),
+                        StdPath::new("ssl/cert.key"),
                     )
                     .await
                     .unwrap();
