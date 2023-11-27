@@ -75,6 +75,27 @@ a {
     color: $dim-gray;
 }
 
+.end-hr {
+    background-color: $dim-gray;
+    opacity: 0.7;
+    height: 1px;
+    border: none;
+}
+
+.end-info {
+    font-size: 0.85rem;
+    padding: 15px 0px 30px;
+    line-height: 0.4;
+}
+
+.end-info a {
+    transition: 0.12s color;
+}
+
+.end-info a:hover {
+    color: $ghost-white;
+}
+
 @media (max-width: 1000px) {
     html {
         font-size: 0.9rem;

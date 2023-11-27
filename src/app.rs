@@ -34,20 +34,28 @@ pub fn App() -> impl IntoView {
         <Link rel="preload" as_="font" href="/fonts/UbuntuMono-Italic.ttf"/>
         <Link rel="preload" as_="font" href="/fonts/UbuntuMono-BoldItalic.ttf"/>
 
-        <Router fallback=|| {
-            let mut outside_errors = Errors::default();
-            outside_errors.insert_with_default_key(AppError::NotFound);
-            view! { <ErrorTemplate outside_errors/> }.into_view()
-        }>
-            <div class="main-container">
-                <main>
+        <div class="main-container">
+            <main>
+                <Router fallback=|| {
+                    let mut outside_errors = Errors::default();
+                    outside_errors.insert_with_default_key(AppError::NotFound);
+                    view! { <ErrorTemplate outside_errors/> }.into_view()
+                }>
                     <Routes>
                         <Route path="" view=|| view! { <HomePage/> }/>
                         <Route path="/projects" view=|| view! { <Projects/> }/>
                         <Route path="/box" view=|| view! { <BoxCollision/> }/>
                     </Routes>
-                </main>
-            </div>
-        </Router>
+                </Router>
+            </main>
+        </div>
+
+        <hr class="end-hr" />
+        <div class="end-info muted">
+            <p>Made by CodeBoi with Rust + Leptos + lots of love</p>
+            <a href="https://github.com/MysteryCoder456/codeboi.dev" class="muted" target="_blank">
+                View Source on GitHub
+            </a>
+        </div>
     }
 }
