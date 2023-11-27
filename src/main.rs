@@ -1,4 +1,5 @@
 use cfg_if::cfg_if;
+use leptos_axum::handle_server_fns_with_context;
 
 cfg_if! {
     if #[cfg(feature = "ssr")] {
@@ -7,8 +8,8 @@ cfg_if! {
 
         use axum::{
             body::Body,
-            extract::{FromRef, State},
-            http::Request,
+            extract::{FromRef, State, Path, RawQuery},
+            http::{Request, HeaderMap},
             response::{IntoResponse, Response},
             routing::{get, post},
             Router,
@@ -30,6 +31,25 @@ cfg_if! {
         struct AppState {
             leptos_options: LeptosOptions,
             pool: PgPool,
+        }
+
+        async fn server_fn_handler(
+            Path(fn_name): Path<String>,
+            headers: HeaderMap,
+            RawQuery(raw_query): RawQuery,
+            State(app_state): State<AppState>,
+            req: Request<Body>,
+        ) -> impl IntoResponse {
+            let handler = handle_server_fns_with_context(
+                Path(fn_name),
+                headers,
+                RawQuery(raw_query),
+                move || {
+                    provide_context(app_state.pool.clone());
+                },
+                req
+            );
+            handler.await.into_response()
         }
 
         async fn leptos_routes_handler(
@@ -75,7 +95,7 @@ cfg_if! {
 
             // build our application with a route
             let app = Router::new()
-                .route("/api/*fn_name", post(leptos_axum::handle_server_fns))
+                .route("/api/*fn_name", post(server_fn_handler))
                 .leptos_routes_with_handler(routes, get(leptos_routes_handler))
                 .fallback(file_and_error_handler)
                 .with_state(app_state);
