@@ -1,5 +1,6 @@
 use leptos::*;
 use leptos_icons::{BsIcon::*, SiIcon::*, TbIcon::*, *};
+use leptos_meta::*;
 use stylers::style;
 
 use crate::app::models::Project;
@@ -48,6 +49,8 @@ pub fn HomePage() -> impl IntoView {
     };
 
     view! { class=style_class,
+        <Title text="CodeBoi"/>
+
         <div align="center">
             <img
                 src="/images/CB.png"
