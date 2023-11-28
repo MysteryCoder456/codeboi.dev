@@ -5,7 +5,6 @@ use leptos_router::*;
 
 mod box_collision;
 mod home;
-mod models;
 mod projects;
 
 use box_collision::BoxCollision;
@@ -49,7 +48,7 @@ pub fn App() -> impl IntoView {
             </main>
         </div>
 
-        <hr class="end-hr" />
+        <hr class="end-hr"/>
         <div class="end-info muted">
             <p>Made by CodeBoi with Rust + Leptos + lots of love</p>
             <a href="https://github.com/MysteryCoder456/codeboi.dev" class="muted" target="_blank">

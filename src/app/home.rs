@@ -3,23 +3,7 @@ use leptos_icons::{BsIcon::*, SiIcon::*, TbIcon::*, *};
 use leptos_meta::*;
 use stylers::style;
 
-use crate::app::models::Project;
-
-#[server(GetPinnedProjects)]
-async fn get_pinned_projects() -> Result<Vec<Project>, ServerFnError> {
-    use sqlx::PgPool;
-    let pool = use_context::<PgPool>().ok_or(ServerFnError::ServerError(
-        "State `PgPool` not found.".to_owned(),
-    ))?;
-
-    sqlx::query_as!(
-        Project,
-        "SELECT * FROM projects WHERE pinned = true ORDER BY date_created DESC"
-    )
-    .fetch_all(&pool)
-    .await
-    .map_err(|e| ServerFnError::ServerError(e.to_string()))
-}
+use crate::app::projects::{get_pinned_projects, PinnedProject};
 
 #[component]
 pub fn HomePage() -> impl IntoView {
@@ -128,12 +112,15 @@ pub fn HomePage() -> impl IntoView {
                             .map(|projects| {
                                 match projects {
                                     Ok(projects) => {
-                                        projects
-                                            .iter()
-                                            .map(|project| {
-                                                view! { <PinnedProject project/> }
-                                            })
-                                            .collect_view()
+                                        view! {
+                                            <For
+                                                each=move || projects.clone()
+                                                key=|p| p.id
+                                                children=move |project| {
+                                                    view! { <PinnedProject project=&project/> }
+                                                }
+                                            />
+                                        }
                                     }
                                     Err(e) => view! { <p>{e.to_string()}</p> }.into_view(),
                                 }
@@ -147,62 +134,6 @@ pub fn HomePage() -> impl IntoView {
             <a href="/projects">
                 <h3>View More</h3>
             </a>
-        </div>
-    }
-}
-
-#[component]
-fn PinnedProject<'a>(project: &'a Project) -> impl IntoView {
-    let style_class = style! {
-        .pinned-project {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-around;
-            align-items: center;
-            box-shadow: 0px 0px 64px -24px var(--malachite);
-            margin: 5px 0px;
-        }
-
-        .pinned-project img {
-            width: 50%;
-            height: auto;
-            box-shadow: 0px 0px 8px -1px black;
-            border-radius: 8px;
-            margin: 8px 0px;
-        }
-
-        @media (max-width: 600px) {
-            .pinned-project {
-                flex-direction: column;
-            }
-
-            .pinned-project img {
-                width: auto;
-                height: 12rem;
-            }
-        }
-    };
-
-    view! { class=style_class,
-        <div class="pinned-project content">
-            <div class="info">
-                <h3>
-                    {if let Some(ref url) = project.url {
-                        view! {
-                            <a href=url target="_blank">
-                                {&project.name}
-                            </a>
-                        }
-                            .into_view()
-                    } else {
-                        view! { <span>{&project.name}</span> }.into_view()
-                    }}
-
-                </h3>
-                <p>{&project.description}</p>
-            </div>
-
-            <img src=format!("/images/projects/{}.png", project.id)/>
         </div>
     }
 }
