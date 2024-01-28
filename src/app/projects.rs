@@ -18,22 +18,18 @@ pub struct Project {
 #[server(GetProjects)]
 pub async fn get_projects() -> Result<Vec<Project>, ServerFnError> {
     use sqlx::PgPool;
-    let pool = use_context::<PgPool>().ok_or(ServerFnError::ServerError(
-        "State `PgPool` not found.".to_owned(),
-    ))?;
+    let pool = use_context::<PgPool>().ok_or(ServerFnError::new("State `PgPool` not found."))?;
 
     sqlx::query_as!(Project, "SELECT * FROM projects ORDER BY date_created DESC")
         .fetch_all(&pool)
         .await
-        .map_err(|e| ServerFnError::ServerError(e.to_string()))
+        .map_err(|e| ServerFnError::new(e))
 }
 
 #[server(GetPinnedProjects)]
 pub async fn get_pinned_projects() -> Result<Vec<Project>, ServerFnError> {
     use sqlx::PgPool;
-    let pool = use_context::<PgPool>().ok_or(ServerFnError::ServerError(
-        "State `PgPool` not found.".to_owned(),
-    ))?;
+    let pool = use_context::<PgPool>().ok_or(ServerFnError::new("State `PgPool` not found."))?;
 
     sqlx::query_as!(
         Project,
@@ -41,7 +37,7 @@ pub async fn get_pinned_projects() -> Result<Vec<Project>, ServerFnError> {
     )
     .fetch_all(&pool)
     .await
-    .map_err(|e| ServerFnError::ServerError(e.to_string()))
+    .map_err(|e| ServerFnError::new(e))
 }
 
 #[component]

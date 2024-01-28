@@ -1,5 +1,6 @@
+use icondata as i;
 use leptos::*;
-use leptos_icons::{BsIcon::*, SiIcon::*, TbIcon::*, *};
+use leptos_icons::*;
 use leptos_meta::*;
 use stylers::style;
 
@@ -48,11 +49,11 @@ pub fn HomePage() -> impl IntoView {
 
         <div class="socials" align="center">
             <a href="https://github.com/mysterycoder456" title="GitHub" target="_blank">
-                <Icon icon=Icon::from(BsGithub) width="40px" height="40px"/>
+                <Icon icon=i::BsGithub width="40px" height="40px"/>
             </a>
 
             <a href="https://monkeytype.com/profile/CodeBoi" title="MonkeyType" target="_blank">
-                <Icon icon=Icon::from(BsKeyboardFill) width="40px" height="40px"/>
+                <Icon icon=i::BsKeyboardFill width="40px" height="40px"/>
             </a>
 
             <a
@@ -60,15 +61,15 @@ pub fn HomePage() -> impl IntoView {
                 title="LinkedIn"
                 target="_blank"
             >
-                <Icon icon=Icon::from(BsLinkedin) width="40px" height="40px"/>
+                <Icon icon=i::BsLinkedin width="40px" height="40px"/>
             </a>
 
             <a href="https://www.fiverr.com/rehatbirsingh" title="Fiverr" target="_blank">
-                <Icon icon=Icon::from(SiFiverr) width="40px" height="40px"/>
+                <Icon icon=i::SiFiverr width="40px" height="40px"/>
             </a>
 
             <a href="mailto:rehatbir.singh@gmail.com" title="Mail" target="_blank">
-                <Icon icon=Icon::from(TbMailFilled) width="40px" height="40px"/>
+                <Icon icon=i::TbMailFilled width="40px" height="40px"/>
             </a>
         </div>
 

@@ -1,69 +1,24 @@
 use cfg_if::cfg_if;
-use leptos_axum::handle_server_fns_with_context;
 
 cfg_if! {
     if #[cfg(feature = "ssr")] {
         #[macro_use]
         extern crate dotenv_codegen;
 
-        use axum::{
-            body::Body,
-            extract::{FromRef, State, Path, RawQuery},
-            http::{Request, HeaderMap},
-            response::{IntoResponse, Response},
-            routing::{get, post},
-            Router,
-        };
+        use axum::Router;
         use leptos::*;
         use leptos_axum::{generate_route_list, LeptosRoutes};
         use portfolio::app::*;
         use portfolio::fileserv::file_and_error_handler;
-        use sqlx::postgres::{PgPool, PgPoolOptions};
+        use sqlx::postgres::PgPoolOptions;
 
         cfg_if! {
             if #[cfg(feature = "tls")] {
                 use std::path::Path as StdPath;
                 use axum_server::tls_rustls::RustlsConfig;
+            } else {
+                use tokio::net::TcpListener;
             }
-        }
-
-        #[derive(FromRef, Debug, Clone)]
-        struct AppState {
-            leptos_options: LeptosOptions,
-            pool: PgPool,
-        }
-
-        async fn server_fn_handler(
-            Path(fn_name): Path<String>,
-            headers: HeaderMap,
-            RawQuery(raw_query): RawQuery,
-            State(app_state): State<AppState>,
-            req: Request<Body>,
-        ) -> impl IntoResponse {
-            let handler = handle_server_fns_with_context(
-                Path(fn_name),
-                headers,
-                RawQuery(raw_query),
-                move || {
-                    provide_context(app_state.pool.clone());
-                },
-                req
-            );
-            handler.await.into_response()
-        }
-
-        async fn leptos_routes_handler(
-            State(app_state): State<AppState>,
-            req: Request<Body>,
-        ) -> Response {
-            let handler = leptos_axum::render_app_to_stream_with_context(
-                app_state.leptos_options.clone(),
-                move || {
-                    provide_context(app_state.pool.clone());
-                },
-                || view! { <App/> },
-            );
-            handler(req).await.into_response()
         }
 
         #[tokio::main]
@@ -82,23 +37,18 @@ cfg_if! {
 
             // SQL connection pool
             let pool = PgPoolOptions::new()
-                .max_connections(2)
+                .max_connections(4)
                 .connect(dotenv!("DATABASE_URL"))
                 .await
                 .unwrap();
 
-            // Build application state
-            let app_state = AppState {
-                leptos_options: leptos_options.clone(),
-                pool,
-            };
-
             // build our application with a route
             let app = Router::new()
-                .route("/api/*fn_name", post(server_fn_handler))
-                .leptos_routes_with_handler(routes, get(leptos_routes_handler))
+                .leptos_routes_with_context(&leptos_options, routes, move || {
+                    provide_context(pool.clone());
+                }, App)
                 .fallback(file_and_error_handler)
-                .with_state(app_state);
+                .with_state(leptos_options);
 
             cfg_if! {
                 if #[cfg(feature = "tls")] {
@@ -117,12 +67,9 @@ cfg_if! {
                         .unwrap();
                 } else {
                     // run our app with hyper
-                    // `axum::Server` is a re-export of `hyper::Server`
+                    let listener = TcpListener::bind(addr).await.unwrap();
                     log::info!("listening on http://{}", &addr);
-                    axum::Server::bind(&addr)
-                        .serve(app.into_make_service())
-                        .await
-                        .unwrap();
+                    axum::serve(listener, app.into_make_service()).await.unwrap();
                 }
             }
 
