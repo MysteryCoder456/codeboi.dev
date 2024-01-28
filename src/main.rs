@@ -23,7 +23,14 @@ cfg_if! {
 
         #[tokio::main]
         async fn main() {
-            simple_logger::init_with_level(log::Level::Debug).expect("couldn't initialize logging");
+            cfg_if! {
+                if #[cfg(debug_assertions)] {
+                    let log_level = log::Level::Debug;
+                } else {
+                    let log_level = log::Level::Warn;
+                }
+            }
+            simple_logger::init_with_level(log_level).expect("couldn't initialize logging");
 
             // Setting get_configuration(None) means we'll be using cargo-leptos's env values
             // For deployment these variables are:
