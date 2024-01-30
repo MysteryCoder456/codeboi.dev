@@ -169,7 +169,7 @@ pub fn ProjectCard<'a>(project: &'a Project) -> impl IntoView {
         }
 
         .tech-icon {
-            padding: 0px 3px;
+            margin-right: 6px;
         }
     };
 
@@ -205,7 +205,7 @@ pub fn ProjectCard<'a>(project: &'a Project) -> impl IntoView {
                     view! {
                         <br />
                         <h3>Tech Stack</h3>
-                        {tech_icons}
+                        <p>{tech_icons}</p>
                     }.into_view()
                 } else {
                     // Empty view
