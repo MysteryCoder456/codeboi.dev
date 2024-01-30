@@ -32,6 +32,8 @@ pub fn App() -> impl IntoView {
         <Link rel="preload" as_="font" href="/fonts/UbuntuMono-Italic.ttf"/>
         <Link rel="preload" as_="font" href="/fonts/UbuntuMono-BoldItalic.ttf"/>
 
+        <Script async_="true" src="https://eu.umami.is/script.js" attrs=vec![("data-website-id", Attribute::String("ff25ff64-cebc-44a4-ac55-7a8bba3671ee".into()))]></Script>
+
         <div class="main-container">
             <main>
                 <Router fallback=|| {
