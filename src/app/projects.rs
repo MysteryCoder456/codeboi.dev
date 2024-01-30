@@ -1,4 +1,6 @@
+use icondata as i;
 use leptos::*;
+use leptos_icons::*;
 use leptos_meta::*;
 use serde::{Deserialize, Serialize};
 use stylers::style;
@@ -9,10 +11,27 @@ use time::Date;
 pub struct Project {
     pub id: i32,
     pub name: String,
-    pub description: String,
+    pub short_description: String,
+    pub long_description: String,
     pub url: Option<String>,
+    pub technologies: Option<String>,
     pub pinned: bool,
     pub date_created: Date,
+}
+
+fn tech_str_to_icon(tech_str: &str) -> Option<i::Icon> {
+    match tech_str {
+        "python" => Some(i::SiPython),
+        "rust" => Some(i::SiRust),
+        "flask" => Some(i::SiFlask),
+        "leptos" => Some(i::SiLeptos),
+        "flutter" => Some(i::SiFlutter),
+        "dart" => Some(i::SiDart),
+        "discord" => Some(i::SiDiscord),
+        "postgres" => Some(i::SiPostgresql),
+        "socketio" => Some(i::SiSocketdotio),
+        _ => None,
+    }
 }
 
 #[server(GetProjects)]
@@ -67,7 +86,9 @@ pub fn Projects() -> impl IntoView {
                                             <For
                                                 each=move || projects.clone()
                                                 key=|p| p.id
-                                                children=move |project| view! { <p>{project.name}</p> }
+                                                children=move |project| {
+                                                    view! { <ProjectCard project=&project/> }
+                                                }
                                             />
                                         }
                                     }
@@ -95,7 +116,7 @@ pub fn PinnedProject<'a>(project: &'a Project) -> impl IntoView {
         }
 
         .pinned-project img {
-            width: 50%;
+            width: 40%;
             height: auto;
             box-shadow: 0px 0px 8px -1px black;
             border-radius: 8px;
@@ -116,8 +137,10 @@ pub fn PinnedProject<'a>(project: &'a Project) -> impl IntoView {
 
     view! { class=style_class,
         <div class="pinned-project content">
+            <img src=format!("/images/projects/{}.png", project.id)/>
+
             <div class="info">
-                <h3>
+                <h2>
                     {if let Some(ref url) = project.url {
                         view! {
                             <a href=url target="_blank">
@@ -129,11 +152,65 @@ pub fn PinnedProject<'a>(project: &'a Project) -> impl IntoView {
                         view! { <span>{&project.name}</span> }.into_view()
                     }}
 
-                </h3>
-                <p>{&project.description}</p>
+                </h2>
+                <p>{&project.short_description}</p>
             </div>
+        </div>
+    }
+}
 
-            <img src=format!("/images/projects/{}.png", project.id)/>
+#[component]
+pub fn ProjectCard<'a>(project: &'a Project) -> impl IntoView {
+    // TODO: Add project image
+
+    let style_class = style! {
+        .project-card {
+            margin: 22px 0px;
+        }
+
+        .tech-icon {
+            padding: 0px 3px;
+        }
+    };
+
+    view! { class=style_class,
+        <div class="project-card content" id=project.id>
+            <h2>
+                {if let Some(ref url) = project.url {
+                    view! {
+                        <a href=url target="_blank">
+                            {&project.name}
+                        </a>
+                    }
+                        .into_view()
+                } else {
+                    view! { <span>{&project.name}</span> }.into_view()
+                }}
+
+            </h2>
+
+            <p>{&project.long_description}</p>
+
+            {
+                if let Some(ref technologies) = project.technologies {
+                    let tech_icons = technologies.split(",").filter_map(tech_str_to_icon).map(|icon| {
+                        view! { class=style_class,
+                            <span class="tech-icon">
+                                <Icon icon width="26px" height="26px" />
+                            </span>
+                        }
+                    }).collect_view();
+
+                    view! {
+                        <br />
+                        <h3>Tech Stack</h3>
+                        {tech_icons}
+                    }.into_view()
+                } else {
+                    // Empty view
+                    view! {}.into_view()
+                }
+            }
         </div>
     }
 }
