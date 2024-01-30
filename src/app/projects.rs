@@ -191,6 +191,7 @@ pub fn ProjectCard<'a>(project: &'a Project) -> impl IntoView {
 
             <p>{&project.long_description}</p>
 
+            // TODO: tooltips
             {
                 if let Some(ref technologies) = project.technologies {
                     let tech_icons = technologies.split(",").filter_map(tech_str_to_icon).map(|icon| {
