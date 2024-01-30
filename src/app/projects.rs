@@ -192,26 +192,29 @@ pub fn ProjectCard<'a>(project: &'a Project) -> impl IntoView {
             <p>{&project.long_description}</p>
 
             // TODO: tooltips
-            {
-                if let Some(ref technologies) = project.technologies {
-                    let tech_icons = technologies.split(",").filter_map(tech_str_to_icon).map(|icon| {
+
+            {if let Some(ref technologies) = project.technologies {
+                let tech_icons = technologies
+                    .split(",")
+                    .filter_map(tech_str_to_icon)
+                    .map(|icon| {
                         view! { class=style_class,
                             <span class="tech-icon">
-                                <Icon icon width="26px" height="26px" />
+                                <Icon icon width="26px" height="26px"/>
                             </span>
                         }
-                    }).collect_view();
-
-                    view! {
-                        <br />
-                        <h3>Tech Stack</h3>
-                        <p>{tech_icons}</p>
-                    }.into_view()
-                } else {
-                    // Empty view
-                    view! {}.into_view()
+                    })
+                    .collect_view();
+                view! {
+                    <br/>
+                    <h3>Tech Stack</h3>
+                    <p>{tech_icons}</p>
                 }
-            }
+                    .into_view()
+            } else {
+                view! {}.into_view()
+            }}
+
         </div>
     }
 }
