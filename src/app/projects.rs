@@ -185,7 +185,7 @@ pub fn ProjectCard<'a>(project: &'a Project) -> impl IntoView {
             border: 1px solid var(--dim-gray);
             border-radius: 12px;
 
-            margin: 22px 0px;
+            margin: 26px 0px;
             display: grid;
             grid-template-rows: 1fr max-content;
         }
