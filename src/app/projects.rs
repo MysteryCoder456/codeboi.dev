@@ -20,7 +20,7 @@ pub struct Project {
 }
 
 fn tech_str_to_icon(tech_str: &str) -> Option<i::Icon> {
-    match tech_str {
+    match tech_str.to_ascii_lowercase().as_ref() {
         "python" => Some(i::SiPython),
         "rust" => Some(i::SiRust),
         "flask" => Some(i::SiFlask),
@@ -32,6 +32,20 @@ fn tech_str_to_icon(tech_str: &str) -> Option<i::Icon> {
         "socketio" => Some(i::SiSocketdotio),
         _ => None,
     }
+}
+
+fn capitalize_str(input: &str) -> String {
+    input
+        .chars()
+        .enumerate()
+        .map(|(i, ch)| {
+            if i == 0 {
+                ch.to_ascii_uppercase()
+            } else {
+                ch.to_ascii_lowercase()
+            }
+        })
+        .collect()
 }
 
 #[server(GetProjects)]
@@ -142,6 +156,7 @@ pub fn PinnedProject<'a>(project: &'a Project) -> impl IntoView {
             <div class="info">
                 <h2>
                     {if let Some(ref url) = project.url {
+                        // TODO: Change this to link to project card or detail
                         view! {
                             <a href=url target="_blank">
                                 {&project.name}
@@ -161,60 +176,85 @@ pub fn PinnedProject<'a>(project: &'a Project) -> impl IntoView {
 
 #[component]
 pub fn ProjectCard<'a>(project: &'a Project) -> impl IntoView {
-    // TODO: Add project image
-
     let style_class = style! {
         .project-card {
+            background: var(--gunmetal);
+            border: 1px solid var(--dim-gray);
+            border-radius: 12px;
+
             margin: 22px 0px;
+            display: grid;
+            grid-template-rows: 1fr max-content;
+        }
+
+        .project-img {
+            width: 100%;
+            object-fit: cover;
+            max-height: "25em";
+            border-radius: 12px 12px 0px 0px;
+        }
+
+        .project-info {
+            padding: 0px 25px 12px 25px;
+        }
+
+        .tech-stack {
+            display: flex;
+            gap: "0.5em";
         }
 
         .tech-icon {
-            margin-right: 6px;
+            width: min-content;
+            height: min-content;
         }
     };
 
     view! { class=style_class,
-        <div class="project-card content" id=project.id>
-            <h2>
-                {if let Some(ref url) = project.url {
-                    view! {
-                        <a href=url target="_blank">
-                            {&project.name}
-                        </a>
+        <div class="project-card" id=project.id>
+            // TODO: Image blur effect
+            <img src=format!("/images/projects/{}.png", project.id) class="project-img" />
+
+            <div class="project-info">
+                <h2>
+                    {if let Some(ref url) = project.url {
+                        view! {
+                            <a href=url target="_blank">
+                                {&project.name}
+                            </a>
+                        }
+                            .into_view()
+                    } else {
+                        view! { <span>{&project.name}</span> }.into_view()
+                    }}
+
+                </h2>
+
+                <p>{&project.long_description}</p>
+
+                {if let Some(ref technologies) = project.technologies {
+                    let tech_icons = technologies
+                        .split(",")
+                        .filter_map(|tech_name| {
+                            tech_str_to_icon(tech_name).map(|icon| (capitalize_str(tech_name), icon))
+                        })
+                        .map(|(icon_name, icon)| {
+                            view! { class=style_class,
+                                <span class="tech-icon" title=icon_name>
+                                    <Icon icon width="2em" height="auto"/>
+                                </span>
+                            }
+                        })
+                        .collect_view();
+                    view! { class=style_class,
+                        <br/>
+                        <h3>Tech Stack</h3>
+                        <p class="tech-stack">{tech_icons}</p>
                     }
                         .into_view()
                 } else {
-                    view! { <span>{&project.name}</span> }.into_view()
+                    view! {}.into_view()
                 }}
-
-            </h2>
-
-            <p>{&project.long_description}</p>
-
-            // TODO: tooltips
-
-            {if let Some(ref technologies) = project.technologies {
-                let tech_icons = technologies
-                    .split(",")
-                    .filter_map(tech_str_to_icon)
-                    .map(|icon| {
-                        view! { class=style_class,
-                            <span class="tech-icon">
-                                <Icon icon width="26px" height="26px"/>
-                            </span>
-                        }
-                    })
-                    .collect_view();
-                view! {
-                    <br/>
-                    <h3>Tech Stack</h3>
-                    <p>{tech_icons}</p>
-                }
-                    .into_view()
-            } else {
-                view! {}.into_view()
-            }}
-
+            </div>
         </div>
     }
 }
