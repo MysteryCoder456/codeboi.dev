@@ -33,6 +33,7 @@ fn tech_str_to_icon(tech_str: &str) -> Option<i::Icon> {
         "opengl" => Some(i::SiOpengl),
         "javascript" => Some(i::SiJavascript),
         "rocket" => Some(i::BsRocketTakeoffFill),
+        "firebase" => Some(i::SiFirebase),
         _ => None,
     }
 }
