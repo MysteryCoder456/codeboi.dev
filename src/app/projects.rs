@@ -20,7 +20,7 @@ pub struct Project {
 }
 
 fn tech_str_to_icon(tech_str: &str) -> Option<i::Icon> {
-    match tech_str.to_ascii_lowercase().as_ref() {
+    match tech_str {
         "python" => Some(i::SiPython),
         "rust" => Some(i::SiRust),
         "flask" => Some(i::SiFlask),
@@ -30,6 +30,9 @@ fn tech_str_to_icon(tech_str: &str) -> Option<i::Icon> {
         "discord" => Some(i::SiDiscord),
         "postgres" => Some(i::SiPostgresql),
         "socketio" => Some(i::SiSocketdotio),
+        "opengl" => Some(i::SiOpengl),
+        "javascript" => Some(i::SiJavascript),
+        "rocket" => Some(i::BsRocketTakeoffFill),
         _ => None,
     }
 }
@@ -155,8 +158,8 @@ pub fn PinnedProject<'a>(project: &'a Project) -> impl IntoView {
 
             <div class="info">
                 <h2>
+                    // TODO: Change this to link to project card or detail
                     {if let Some(ref url) = project.url {
-                        // TODO: Change this to link to project card or detail
                         view! {
                             <a href=url target="_blank">
                                 {&project.name}
@@ -212,7 +215,7 @@ pub fn ProjectCard<'a>(project: &'a Project) -> impl IntoView {
     view! { class=style_class,
         <div class="project-card" id=project.id>
             // TODO: Image blur effect
-            <img src=format!("/images/projects/{}.png", project.id) class="project-img" />
+            <img src=format!("/images/projects/{}.png", project.id) class="project-img"/>
 
             <div class="project-info">
                 <h2>
@@ -235,7 +238,9 @@ pub fn ProjectCard<'a>(project: &'a Project) -> impl IntoView {
                     let tech_icons = technologies
                         .split(",")
                         .filter_map(|tech_name| {
-                            tech_str_to_icon(tech_name).map(|icon| (capitalize_str(tech_name), icon))
+                            let trimmed_name = tech_name.trim();
+                            tech_str_to_icon(trimmed_name)
+                                .map(|icon| (capitalize_str(trimmed_name), icon))
                         })
                         .map(|(icon_name, icon)| {
                             view! { class=style_class,
@@ -254,6 +259,7 @@ pub fn ProjectCard<'a>(project: &'a Project) -> impl IntoView {
                 } else {
                     view! {}.into_view()
                 }}
+
             </div>
         </div>
     }
