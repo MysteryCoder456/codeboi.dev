@@ -34,11 +34,11 @@ pub fn App() -> impl IntoView {
 
         <Script
             async_="true"
-            src="https://eu.umami.is/script.js"
+            src="https://umami.codeboi.dev/script.js"
             attrs=vec![
                 (
                     "data-website-id",
-                    Attribute::String("ff25ff64-cebc-44a4-ac55-7a8bba3671ee".into()),
+                    Attribute::String("6d05defe-708b-41d7-91c1-40a55ec94f3d".into()),
                 ),
             ]
         />
