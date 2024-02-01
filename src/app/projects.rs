@@ -122,28 +122,33 @@ pub fn Projects() -> impl IntoView {
 }
 
 #[component]
-pub fn PinnedProject<'a>(project: &'a Project) -> impl IntoView {
+pub fn PinnedProjectCard<'a>(project: &'a Project) -> impl IntoView {
     let style_class = style! {
         .pinned-project {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-around;
             align-items: center;
             box-shadow: 0px 0px 64px -24px var(--malachite);
             margin: 5px 0px;
+            display: grid;
+            grid-template-columns: 50% 50%;
+            gap: 10px;
         }
 
         .pinned-project img {
-            width: 40%;
+            max-width: 100%;
             height: auto;
             box-shadow: 0px 0px 8px -1px black;
             border-radius: 8px;
-            margin: 8px 0px;
+            margin: 8px auto;
+        }
+
+        .info {
+            text-align: center;
         }
 
         @media (max-width: 600px) {
             .pinned-project {
-                flex-direction: column;
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr max-content;
             }
 
             .pinned-project img {

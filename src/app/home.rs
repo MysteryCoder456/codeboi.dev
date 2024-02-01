@@ -4,7 +4,7 @@ use leptos_icons::*;
 use leptos_meta::*;
 use stylers::style;
 
-use crate::app::projects::{get_pinned_projects, PinnedProject};
+use crate::app::projects::{get_pinned_projects, PinnedProjectCard};
 
 #[component]
 pub fn HomePage() -> impl IntoView {
@@ -118,7 +118,7 @@ pub fn HomePage() -> impl IntoView {
                                                 each=move || projects.clone()
                                                 key=|p| p.id
                                                 children=move |project| {
-                                                    view! { <PinnedProject project=&project/> }
+                                                    view! { <PinnedProjectCard project=&project/> }
                                                 }
                                             />
                                         }
