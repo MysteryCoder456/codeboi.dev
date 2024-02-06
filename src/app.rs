@@ -43,6 +43,10 @@ pub fn App() -> impl IntoView {
             ]
         />
 
+        <svg class="bg-design">
+            <ellipse cx="50%" cy="50%" rx="28rem" ry="14rem" fill="var(--malachite)" />
+        </svg>
+
         <div class="main-container">
             <main>
                 <Router fallback=|| {

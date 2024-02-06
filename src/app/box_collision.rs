@@ -20,7 +20,7 @@ pub fn BoxCollision() -> impl IntoView {
         <br/>
 
         <h2 align="center">Box Collisions</h2>
-        <div class="content" align="center">
+        <div class="content content-border" align="center">
             <p>
                 A simple simulation where two boxes collide. The number of
                 collisions has an interesting property: they resemble the

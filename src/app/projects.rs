@@ -127,7 +127,6 @@ pub fn PinnedProjectCard<'a>(project: &'a Project) -> impl IntoView {
     let style_class = style! {
         .pinned-project {
             align-items: center;
-            box-shadow: 0px 0px 64px -24px var(--malachite);
             margin: 5px 0px;
             display: grid;
             grid-template-columns: 50% 50%;
@@ -160,7 +159,7 @@ pub fn PinnedProjectCard<'a>(project: &'a Project) -> impl IntoView {
     };
 
     view! { class=style_class,
-        <div class="pinned-project content">
+        <div class="pinned-project content content-border">
             <img src=format!("/images/projects/{}.png", project.id)/>
 
             <div class="info">
@@ -188,10 +187,7 @@ pub fn PinnedProjectCard<'a>(project: &'a Project) -> impl IntoView {
 pub fn ProjectCard<'a>(project: &'a Project) -> impl IntoView {
     let style_class = style! {
         .project-card {
-            background: var(--gunmetal);
-            border: 1px solid var(--dim-gray);
-            border-radius: 12px;
-
+            background-color: var(--gunmetal);
             margin: 32px 0px;
             display: grid;
             grid-template-rows: 1fr max-content;
@@ -220,7 +216,7 @@ pub fn ProjectCard<'a>(project: &'a Project) -> impl IntoView {
     };
 
     view! { class=style_class,
-        <div class="project-card" id=project.id>
+        <div class="project-card content-border" id=project.id>
             // TODO: Image blur effect
             <img src=format!("/images/projects/{}.png", project.id) class="project-img"/>
 
