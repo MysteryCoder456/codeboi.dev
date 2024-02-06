@@ -63,12 +63,12 @@ pub fn App() -> impl IntoView {
             </main>
         </div>
 
-        <hr class="end-hr"/>
-        <div class="end-info muted">
-            <p>Made by CodeBoi with Rust + Leptos + lots of love</p>
+        <hr class="footer-hr"/>
+        <footer>
+            <p class="muted">Made by CodeBoi with Rust + Leptos + lots of love</p>
             <a href="https://github.com/MysteryCoder456/codeboi.dev" class="muted" target="_blank">
                 View Source on GitHub
             </a>
-        </div>
+        </footer>
     }
 }

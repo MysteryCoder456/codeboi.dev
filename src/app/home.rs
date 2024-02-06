@@ -26,11 +26,6 @@ pub fn HomePage() -> impl IntoView {
             opacity: 1.0;
         }
 
-        .transparent {
-            color: var(--ghost-white);
-            opacity: 0.45;
-        }
-
         .pinned-projects {
             width: 100%;
             display: flex;
@@ -50,31 +45,31 @@ pub fn HomePage() -> impl IntoView {
                 class="codeboi-pfp"
             />
             <h1>"CodeBoi"</h1>
-            <h3 class="transparent">"aka rehatbir singh irl ;)"</h3>
+            <h3 class="muted">"aka rehatbir singh irl ;)"</h3>
         </div>
 
         <div class="socials" align="center">
-            <a href="https://github.com/mysterycoder456" title="GitHub" target="_blank" class="transparent">
+            <a href="https://github.com/mysterycoder456" title="GitHub" target="_blank" class="muted">
                 <Icon icon=i::BsGithub width="40px" height="40px"/>
             </a>
 
-            <a href="https://monkeytype.com/profile/CodeBoi" title="MonkeyType" target="_blank" class="transparent">
+            <a href="https://monkeytype.com/profile/CodeBoi" title="MonkeyType" target="_blank" class="muted">
                 <Icon icon=i::BsKeyboardFill width="40px" height="40px"/>
             </a>
 
             <a
                 href="https://www.linkedin.com/in/rehatbir-singh-4805ba193"
                 title="LinkedIn"
-                target="_blank" class="transparent"
+                target="_blank" class="muted"
             >
                 <Icon icon=i::BsLinkedin width="40px" height="40px"/>
             </a>
 
-            <a href="https://www.fiverr.com/rehatbirsingh" title="Fiverr" target="_blank" class="transparent">
+            <a href="https://www.fiverr.com/rehatbirsingh" title="Fiverr" target="_blank" class="muted">
                 <Icon icon=i::SiFiverr width="40px" height="40px"/>
             </a>
 
-            <a href="mailto:rehatbir.singh@gmail.com" title="Mail" target="_blank" class="transparent">
+            <a href="mailto:rehatbir.singh@gmail.com" title="Mail" target="_blank" class="muted">
                 <Icon icon=i::TbMailFilled width="40px" height="40px"/>
             </a>
         </div>
