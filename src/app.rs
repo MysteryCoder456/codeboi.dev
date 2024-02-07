@@ -44,7 +44,12 @@ pub fn App() -> impl IntoView {
         />
 
         <svg class="bg-design">
-            <ellipse cx="50%" cy="50%" rx="28rem" ry="14rem" fill="var(--malachite)" />
+            <radialGradient id="Gradient1">
+                <stop offset="0%" stop-color="#00ff61"></stop>
+                <stop offset="100%" stop-color="#00732c"></stop>
+            </radialGradient>
+
+          <ellipse cy="50%" data-hk="0-0-0-28" fill="url(#Gradient1)" cx="50%" rx="32rem" ry="16rem"></ellipse>
         </svg>
 
         <div class="main-container">
