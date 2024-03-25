@@ -35,6 +35,7 @@ fn tech_str_to_icon(tech_str: &str) -> Option<i::Icon> {
         "rocket" => Some(i::BsRocketTakeoffFill),
         "firebase" => Some(i::SiFirebase),
         "swift" => Some(i::SiSwift),
+        "redis" => Some(i::SiRedis),
         _ => None,
     }
 }
