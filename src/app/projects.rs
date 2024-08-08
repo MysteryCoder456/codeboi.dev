@@ -36,6 +36,8 @@ fn tech_str_to_icon(tech_str: &str) -> Option<i::Icon> {
         "firebase" => Some(i::SiFirebase),
         "swift" => Some(i::SiSwift),
         "redis" => Some(i::SiRedis),
+        "supabase" => Some(i::SiSupabase),
+        "arkit" => Some(i::TbAugmentedReality),
         _ => None,
     }
 }

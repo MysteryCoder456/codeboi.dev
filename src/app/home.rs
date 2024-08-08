@@ -78,7 +78,11 @@ pub fn HomePage() -> impl IntoView {
 
         <h2>"TL;DR"</h2>
         <div class="content content-border" align="center">
-            <p>"I'm a high school senior who"</p>
+            <p>
+                <span>"I'm an undergrad cs major at "</span>
+                <a href="https://www.wisc.edu" target="_blank">"uw-madison"</a>
+                <span>" who"</span>
+            </p>
             <div align="left">
                 <ul>
                     <li>"likes programming & tech 💻"</li>
